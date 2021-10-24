@@ -10,26 +10,34 @@ const romanNumerals = {
 
 const verifyRomanNumeral = (array) => {
   const values = Object.values(romanNumerals);
-  const verify = array.every(number => values.includes(number))
-  console.log(verify)
-  return verify
+  const verify = array.every(number => values.includes(number));
+  return verify;
 }
 
 const verify5Numbers = (string) => {
-  switch (string) {
-    case 'VV': throw new Error('Invalid repetition of number starting with 5: V (5)');
-    case 'LL': throw new Error('Invalid repetition of number starting with 5: L (50)');
-    case 'DD': throw new Error('Invalid repetition of number starting with 5: D (500)');
+  let verify = false
+  const dontAllow = [ "VV", "LL", "DD"]
+  for (let i = 0; i < dontAllow.length; i++) {
+    const includes = string.includes(dontAllow[i])
+    if (includes === true) {
+      verify = true
+    }
   }
+  return verify
 }
 
-const verifyRepeatNumbers = (array) => {
-  const counter =  array.reduce((a, d) => ( a[d] ? a[d] += 1 : a[d] = 1, a ), {});
-  const values  = Object.values(counter);
-  const checkSequense = values.some( element => element >= 4)
-  return checkSequense
-}
 
+const verifyRepeatNumbers = (string) => {
+  let verify = false
+  const dontAllow = [ "MMMM", "CCCC", "XXXX", "IIII"]
+  for (let i = 0; i < dontAllow.length; i++) {
+   const includes = string.includes(dontAllow[i])
+   if (includes === true) {
+     verify = true
+   }
+  }
+  return verify
+}
 
 module.exports = {
   verifyRomanNumeral,

@@ -1,5 +1,5 @@
 const { verifyRomanNumeral, verify5Numbers, verifyRepeatNumbers } = require('./utils');
-const romanNumerals = {
+const fromRomanToArabic = {
   1: "I",
   5: "V",
   10: "X",
@@ -8,41 +8,67 @@ const romanNumerals = {
   500: "D",
   1000: "M",
 };
-
-// Los numero romanos llegan al numero 3999
-const stringify = (num) => {
-  if (typeof num !== "Number") {
-    console.log("El argumento no es tipo Number");
-  } else if (num < 3999) {
-    console.log("Fuera de rango");
-  }
-  let roman;
-
-  console.log("esta funcion es para convertir de numero a romano");
+const fromArabicToRoman = {
+  M:1000,
+  CM:900,
+  D:500,
+  CD:400,
+  C:100,
+  XC:90,
+  L:50,
+  XL:40,
+  X:10,
+  IX:9,
+  V:5,
+  IV:4,
+  I:1,
 };
 
-// Esta funcion es para convertir de romano a numero.
+
+// Esta funcion es para convertir de numero a romano.
+const stringify = (num) => {
+  if (typeof num !== "number") {
+    throw new Error('Not a number');
+  } else if (num > 3999 || num < 0) {
+    throw new Error('out of range');
+  }
+  
+  let roman = '';
+  for ( i in fromArabicToRoman ) {
+    while ( num >= fromArabicToRoman[i] ) {
+      roman += i;
+      num -= fromArabicToRoman[i];
+    }
+  }
+  return roman;
+};
+
+
+// Esta funcion es para convertir de romano a numero arabico.
 const parse = (str) => {
   if (typeof str !== "string") {
+    console.log('string')
     throw new Error('Not a string');
-  } else if (str === 'VV' || str === 'LL' ||str ===  'DD' ) {
-    verify5Numbers(str)
-  }
+  } 
   const arrayRoman = str.toUpperCase().split("");
   const conversion = [];
   let finalNumber = 0;
 
   if (!verifyRomanNumeral(arrayRoman)) {
+    console.log('verify roman')
     throw new Error('Unknown roman numeral');
-  }else if (verifyRepeatNumbers(arrayRoman)) {
+  } else if (verify5Numbers(str) === true) {
+    console.log('verify 5 numbers')
+    throw new Error('Invalid repetition of number starting with 5: L (50)');
+  } else if (verifyRepeatNumbers(str) === true) {
     throw new Error('Too many repetitions of roman numeral I');
   }
   
   
   // Buscando en nuestro objeto de numeros romanos el key correpondiente al valor entregado.
   arrayRoman.forEach((element) => {
-    for (const key in romanNumerals) {
-      const value = romanNumerals[key];
+    for (const key in fromRomanToArabic) {
+      const value = fromRomanToArabic[key];
       if (value === element) {
         conversion.push(parseInt(key, 10));
       }
@@ -64,8 +90,7 @@ const parse = (str) => {
   }
   return finalNumber;
 };
-
-console.log(parse('X'));
+parse('VV')
 module.exports = {
   stringify,
   parse,
