@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/k-garrido/REG003-roman-numerals/issues"
   },
-  "homepage": "https://github.com/k-garrido/REG003-roman-numerals#readme"
+  "homepage": "https://github.com/k-garrido/REG003-roman-numerals#readme",
+  "dependencies": {
+    "commander": "^8.3.0"
+  }
 }

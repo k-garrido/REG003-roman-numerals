@@ -90,7 +90,8 @@ const parse = (str) => {
   }
   return finalNumber;
 };
-parse('VV')
+
+
 module.exports = {
   stringify,
   parse,
